@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added viewport meta tag for responsiveness -->
+  <title>Login</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <section>
+    <span></span><span></span><span></span>
+    <div class="signin">
+      <div class="content">
+        <h2>Sign In</h2>
+        <form id="loginForm" action="/login" method="POST">
+          <div class="form">
+            <div class="inputBox">
+              <input type="text" id="username" name="username"> 
+              <i>Username</i>
+            </div>
+
+            <div class="inputBox">
+              <input type="password" id="password" name="password"> 
+              <i>Password</i>
+            </div>
+
+            <div class="links"> 
+              <a href="forgotpassword.html">Forgot Password</a> 
+              <a href="signup.html">Signup</a> 
+            </div>
+            
+            <div id="errorMessage" class="error"></div>
+
+            <div class="inputBox">
+              <input type="submit" value="Login">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Function to display error messages
+    function displayError(message) {
+      document.getElementById('errorMessage').textContent = message;
+    }
+
+    // Check if there's an error passed via the query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    if (errorMessage) {
+      displayError(errorMessage);
+    }
+
+    // Frontend validation for empty fields
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      let errorMessages = [];
+
+      // Check if any field is left empty
+      if (!username || !password) {
+        errorMessages.push('Both username and password are required.');
+      }
+
+      // If there are any errors, prevent form submission and display the errors
+      if (errorMessages.length > 0) {
+        event.preventDefault(); // Prevent form submission
+        displayError(errorMessages.join(' '));
+      }
+    });
+  </script>
+
+</body>
+</html>

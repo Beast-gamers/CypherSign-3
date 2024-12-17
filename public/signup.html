@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added viewport meta tag for responsiveness -->
+
+  <meta charset="UTF-8">
+  <title>signup</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+  <section>
+    <span></span><span></span><span></span>
+    <div class="signin">
+      <div class="content">
+        <h2>Sign Up</h2>
+        <form id="signupForm" action="/signup" method="POST">
+          <input type="text" style="visibility: hidden;" id='p1' name="p1"><br>
+          <input type="text" style="visibility: hidden;" id="p2" name="p2"><br>
+          
+          <div class="form">
+            <div class="inputBox">
+              <input type="text" id="username" name="username"> <i>Username</i>
+            </div>
+
+            <div class="inputBox">
+              <input type="text" id="email" name="email"> <i>Email</i>
+            </div>
+
+            <div class="inputBox">
+              <input type="password" id="password" name="password"> <i>Password</i>
+            </div>
+
+            <div class="links"> 
+              <a href="#"></a> <a href="login.html">Signin</a> 
+            </div>
+            <div id="errorMessage" class="error"></div>
+
+            <div class="inputBox"> 
+              <input type="submit" id="generate-pq" value="Signup">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Function to display error messages
+    function displayError(message) {
+      document.getElementById('errorMessage').textContent = message;
+    }
+
+    // Function to highlight input fields with errors
+    function highlightError(fieldId) {
+      document.getElementById(fieldId).classList.add('input-error');
+    }
+
+    // Function to remove error highlight
+    function removeHighlight(fieldId) {
+      document.getElementById(fieldId).classList.remove('input-error');
+    }
+
+    // Check if there's an error passed via the query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    if (errorMessage) {
+      displayError(errorMessage);
+    }
+
+    // Frontend validation for email format, password strength, and username length
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const p1 = document.getElementById('p1').value;
+      const p2 = document.getElementById('p2').value;
+
+      let errorMessages = [];
+
+      // Reset error highlights
+      removeHighlight('username');
+      removeHighlight('email');
+      removeHighlight('password');
+      removeHighlight('p1');
+      removeHighlight('p2');
+
+      // Check if any field is left empty
+      if (!username || !email || !password || !p1 || !p2) {
+        errorMessages.push('All fields are required.');
+        if (!p1) highlightError('p1');
+        if (!p2) highlightError('p2');
+      }
+
+      // Username length validation (at least 4 characters long)
+      if (username.length < 4) {
+        errorMessages.push('Username must be at least 4 characters long.');
+        highlightError('username');
+      }
+
+      // Email format validation (must not contain any uppercase letters)
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      const emailHasUppercase = /[A-Z]/.test(email);
+      if (email && (emailHasUppercase || !emailPattern.test(email))) {
+        errorMessages.push('Email must not contain any uppercase letters and should have a valid format.');
+        highlightError('email');
+      }
+
+      // Password strength validation (minimum 8 characters, at least one number, one lowercase, one uppercase, one special character)
+      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+      if (password && !passwordPattern.test(password)) {
+        errorMessages.push('Password must be at least 8 characters long, include one number, one lowercase letter, one uppercase letter, and one special character.');
+        highlightError('password');
+      }
+
+      // If there are any errors, prevent form submission and display the errors
+      if (errorMessages.length > 0) {
+        event.preventDefault(); // Prevent form submission
+        displayError(errorMessages.join(' '));
+      }
+    });
+  </script>
+  
+  <script src="script.js"></script>
+
+</body>
+</html>
