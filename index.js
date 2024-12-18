@@ -548,4 +548,7 @@ app.listen(port, () => {
 });
 
 
-
+// Redirect request for /style.css to /public/style.css
+app.get('/style.css', (req, res) => {
+  res.redirect('/public/style.css');
+});
