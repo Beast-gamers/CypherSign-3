@@ -542,6 +542,12 @@ app.post('/update-password', (req, res) => {
 });
 
 
+// Redirect any request for '/style.css' to '/public/style.css'
+app.get('/style.css', (req, res) => {
+  res.redirect('/public/style.css');
+});
+
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
