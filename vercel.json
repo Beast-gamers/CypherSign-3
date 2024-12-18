@@ -21,7 +21,7 @@
     },
     {
       "src": "/public/(.*)",
-      "dest": "/public/$1"
+      "dest": "/public/(.*)"
     }
   ]
 }
