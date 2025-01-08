@@ -19,15 +19,4 @@
   "env": {
     "NODE_ENV": "production",
     "API_KEY": "@api-key" 
-  },
-  "functions": {
-    "api/**/*.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
-  "regions": [
-    "sfo1", "iad1"
-  ],
-  "cleanUrls": true
-}
+  }
